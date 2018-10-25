@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 OLD_TIMEOUT=$TIMEOUT
 OLD_QUIET=$QUIET
@@ -34,7 +34,7 @@ USAGE
 
 test_connection() {
   # force a 1-second timeout on darwin (https://stackoverflow.com/a/20460402/2063546)
-  if [ -z "${$OSTYPE##*darwin*}" ] ; then
+  if [ -z "${OSTYPE##*darwin*}" ] ; then
     nc -w 1 -G 1 "$1" "$2" > /dev/null 2>&1
   else
     nc -w 1 "$1" "$2" > /dev/null 2>&1
