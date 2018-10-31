@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
-@test "google should be immediately found" {
-  run ./wait-for google.com:80 -- echo 'success'
+@test "google should be immediately found, no output other than our own" {
+  run ./wait-for -q google.com:80 -- echo 'success'
 
   [ "$output" = "success" ]
 }
@@ -14,12 +14,11 @@
 }
 
 @test "nonexistent server should start command if loose option is specified" {
-  run ./wait-for -t 1 -l noserver:9999 -- echo 'passable' 2>&1
+  run ./wait-for -q -t 1 -l noserver:9999 -- echo 'passable' 2>&1
 
   [ "$status" -eq 0 ]
 
-  [ "${lines[0]}" = "Operation timed out" ]
-  [ "${lines[1]}" = "passable" ]
+  [ "$output" = "passable" ]
 }
 
 @test "preserve existing environment variables" {
